@@ -30,3 +30,6 @@ Then you run pdftk to merge and flatten:
 and a filled out, flattened (meaning that there are no longer editable
 form fields) pdf will be in output.pdf.
 
+CHANGELOG:
+
+* 0.9.2 -- 2011-01-12 -- merged unicode fix from Sébastien Fievet <zyegfryed@gmail.com>
