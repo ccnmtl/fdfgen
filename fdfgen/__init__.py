@@ -14,7 +14,7 @@ import codecs
 
 
 def smart_encode_str(s):
-    return codecs.BOM_UTF16_BE + unicode(s).encode('utf_16_be')
+    return codecs.BOM_UTF16_BE + unicode(s).encode('utf_16_be').replace('\x00)', '\\\x00)').replace('\x00(', '\\\x00(')
 
 
 def handle_hidden(key, fields_hidden):
@@ -33,12 +33,26 @@ def handle_readonly(key, fields_readonly):
 
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
     for (key, value) in fdf_data_strings:
-        yield "<<\n/V (%s)\n/T (%s)\n%s\n%s\n>>\n" % (
-            smart_encode_str(value),
-            smart_encode_str(key),
-            handle_hidden(key, fields_hidden),
-            handle_readonly(key, fields_readonly),
-        )
+        if type(value) is bool:
+            if value:
+                yield "<<\n/V/Yes\n/T (%s)\n%s\n%s\n>>\n" % (
+                    smart_encode_str(key),
+                    handle_hidden(key, fields_hidden),
+                    handle_readonly(key, fields_readonly),
+                )
+            else:
+                yield "<<\n/V/Off\n/T (%s)\n%s\n%s\n>>\n" % (
+                    smart_encode_str(key),
+                    handle_hidden(key, fields_hidden),
+                    handle_readonly(key, fields_readonly),
+                )
+        else:
+            yield "<<\n/V (%s)\n/T (%s)\n%s\n%s\n>>\n" % (
+                smart_encode_str(value),
+                smart_encode_str(key),
+                handle_hidden(key, fields_hidden),
+                handle_readonly(key, fields_readonly),
+            )
 
 
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
