@@ -14,7 +14,7 @@ import codecs
 
 
 def smart_encode_str(s):
-    return codecs.BOM_UTF16_BE + unicode(s).encode('utf_16_be').replace('\x00)', '\x00)').replace('\x00(', '\x00(')
+    return codecs.BOM_UTF16_BE + unicode(s).encode('utf_16_be').replace('\x00)', '\\\x00)').replace('\x00(', '\\\x00(')
 
 
 def handle_hidden(key, fields_hidden):
