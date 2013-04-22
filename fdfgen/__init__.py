@@ -8,13 +8,17 @@ and Learning <http://ccnmtl.columbia.edu/>
 """
 
 __author__ = "Anders Pearson <anders@columbia.edu>"
-__credits__ = "Sébastien Fievet <zyegfryed@gmail.com>"
+__credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>,"
+               "Brandon Rhodes <brandon@rhodesmill.org>")
 
 import codecs
 
 
 def smart_encode_str(s):
-    return codecs.BOM_UTF16_BE + unicode(s).encode('utf_16_be').replace('\x00)', '\\\x00)').replace('\x00(', '\\\x00(')
+    """Create a UTF-16 encoded PDF string literal for `s`."""
+    utf16 = s.encode('utf_16_be')
+    safe = utf16.replace('\x00)', '\x00\\)').replace('\x00(', '\x00\\(')
+    return ('%s%s' % (codecs.BOM_UTF16_BE, safe))
 
 
 def handle_hidden(key, fields_hidden):
