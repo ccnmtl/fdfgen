@@ -10,7 +10,7 @@ and Learning <http://ccnmtl.columbia.edu/>
 __author__ = "Anders Pearson <anders@columbia.edu>"
 __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>,"
                "Brandon Rhodes <brandon@rhodesmill.org>",
-               "Robert Stewart" <https://github.com/rwjs")
+               "Robert Stewart <https://github.com/rwjs")
 
 import codecs
 
