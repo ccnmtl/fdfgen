@@ -10,7 +10,7 @@ and Learning <http://ccnmtl.columbia.edu/>
 __author__ = "Anders Pearson <anders@columbia.edu>"
 __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>,"
                "Brandon Rhodes <brandon@rhodesmill.org>",
-               "Robert Stewart <https://github.com/rwjs")
+               "Robert Stewart <https://github.com/rwjs>")
 
 import codecs
 
@@ -115,8 +115,16 @@ if __name__ == "__main__":
     # Parse command-line arguments
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", "-o", help="FDF File to output to", default='vacation.fdf', type=argparse.FileType('w'))
-    parser.add_argument("--fields", "-f", help="Fields used in form; syntax is fieldname=fieldvalue", default=fields, nargs='*')
+    parser.add_argument(
+                        "--output", "-o", 
+                        help="FDF File to output to", 
+                        default='vacation.fdf', 
+                        type=argparse.FileType('w'))
+    parser.add_argument(
+                        "--fields", "-f", 
+                        help="Fields used in form; syntax is fieldname=fieldvalue", 
+                        default=fields, 
+                        nargs='*')
     args = parser.parse_args()
     if args.fields is not fields:
         for e,x in enumerate(args.fields):   
