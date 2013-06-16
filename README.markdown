@@ -32,6 +32,7 @@ form fields) pdf will be in output.pdf.
 
 CHANGELOG:
 
+* 0.10.2 -- 2013-06-16 -- minor code refactor and added command line options from Robert Stewart <https://github.com/rwjs>
 * 0.10.1 -- 2013-04-22 -- unbalanced paren bugfix from Brandon Rhodes <brandon@rhodesmill.org>
 * 0.10.0 -- 2012-06-14 -- support checkbox fields and parenthesis in strings from Guangcong Luo <zarelsl@gmail.com>
 * 0.9.2  -- 2011-01-12 -- merged unicode fix from Sébastien Fievet <zyegfryed@gmail.com>
