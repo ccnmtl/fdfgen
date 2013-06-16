@@ -9,7 +9,8 @@ and Learning <http://ccnmtl.columbia.edu/>
 
 __author__ = "Anders Pearson <anders@columbia.edu>"
 __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>,"
-               "Brandon Rhodes <brandon@rhodesmill.org>")
+               "Brandon Rhodes <brandon@rhodesmill.org>",
+               "Robert Stewart" <https://github.com/rwjs")
 
 import codecs
 
@@ -37,26 +38,18 @@ def handle_readonly(key, fields_readonly):
 
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
     for (key, value) in fdf_data_strings:
-        if type(value) is bool:
-            if value:
-                yield "<<\n/V/Yes\n/T (%s)\n%s\n%s\n>>\n" % (
-                    smart_encode_str(key),
-                    handle_hidden(key, fields_hidden),
-                    handle_readonly(key, fields_readonly),
-                )
-            else:
-                yield "<<\n/V/Off\n/T (%s)\n%s\n%s\n>>\n" % (
-                    smart_encode_str(key),
-                    handle_hidden(key, fields_hidden),
-                    handle_readonly(key, fields_readonly),
-                )
+        if type(value) is bool and value:
+            value='Yes'
+        elif type(value) is bool and not value:
+            value='Off'
         else:
-            yield "<<\n/V (%s)\n/T (%s)\n%s\n%s\n>>\n" % (
-                smart_encode_str(value),
-                smart_encode_str(key),
-                handle_hidden(key, fields_hidden),
-                handle_readonly(key, fields_readonly),
-            )
+            value=' (%s)' % value
+        yield "<<\n/V (%s)\n/T (%s)\n%s\n%s\n>>\n" % (
+            smart_encode_str(value),
+            smart_encode_str(key),
+            handle_hidden(key, fields_hidden),
+            handle_readonly(key, fields_readonly),
+        )
 
 
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
