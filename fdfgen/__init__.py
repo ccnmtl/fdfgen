@@ -102,6 +102,7 @@ if __name__ == "__main__":
     # this will create an FDF file suitable to fill in
     # the vacation request forms we use at work.
 
+    # Set defaults
     from datetime import datetime
     fields = [('Name', u'Anders Pearson'),
               ('Date', datetime.now().strftime("%D")),
@@ -110,7 +111,18 @@ if __name__ == "__main__":
               ('Request_3', ''),
               ('Total_days', 5),
               ('emergency_phone', u'857-6309')]
-    fdf = forge_fdf(fdf_data_strings=fields)
-    fdf_file = open("vacation.fdf", "w")
-    fdf_file.write(fdf)
-    fdf_file.close()
+
+    # Parse command-line arguments
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--output", "-o", help="FDF File to output to", default='vacation.fdf', type=argparse.FileType('w'))
+    parser.add_argument("--fields", "-f", help="Fields used in form; syntax is fieldname=fieldvalue", default=fields, nargs='*')
+    args = parser.parse_args()
+    if args.fields is not fields:
+        for e,x in enumerate(args.fields):   
+            args.fields[e] = x.split('=')
+            args.fields[e][1] = unicode(args.fields[e][1])
+
+    fdf = forge_fdf(fdf_data_strings=args.fields)
+    args.output.write(fdf)
+    args.output.close()
