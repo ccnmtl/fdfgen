@@ -19,8 +19,7 @@ def smart_encode_str(s):
     """Create a UTF-16 encoded PDF string literal for `s`."""
     utf16 = s.encode('utf_16_be')
     safe = utf16.replace('\x00)', '\x00\\)').replace('\x00(', '\x00\\(')
-    return ('%s%s' % (codecs.BOM_UTF16_BE, safe))
-
+    return ('{0}{1}'.format(codecs.BOM_UTF16_BE, safe))
 
 def handle_hidden(key, fields_hidden):
     if key in fields_hidden:
@@ -43,8 +42,8 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
         elif type(value) is bool and not value:
             value='Off'
         else:
-            value=' (%s)' % value
-        yield "<<\n/V (%s)\n/T (%s)\n%s\n%s\n>>\n" % (
+            value=' ({0})'.format(value)
+        yield "<<\n/V{0}\n/T ({1})\n{2}\n{3}\n>>\n".format(
             smart_encode_str(value),
             smart_encode_str(key),
             handle_hidden(key, fields_hidden),
@@ -54,7 +53,7 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
 
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
     for (key, value) in fdf_data_names:
-        yield "<<\n/V /%s\n/T (%s)\n%s\n%s\n>>\n" % (
+        yield "<<\n/V /{0}\n/T ({1})\n{2}\n{3}\n>>\n".format(
             smart_encode_str(value),
             smart_encode_str(key),
             handle_hidden(key, fields_hidden),
