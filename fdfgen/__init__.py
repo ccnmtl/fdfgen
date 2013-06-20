@@ -21,6 +21,7 @@ def smart_encode_str(s):
     safe = utf16.replace('\x00)', '\x00\\)').replace('\x00(', '\x00\\(')
     return ('{0}{1}'.format(codecs.BOM_UTF16_BE, safe))
 
+
 def handle_hidden(key, fields_hidden):
     if key in fields_hidden:
         return "/SetF 2"
@@ -38,11 +39,11 @@ def handle_readonly(key, fields_readonly):
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
     for (key, value) in fdf_data_strings:
         if type(value) is bool and value:
-            value='Yes'
+            value = 'Yes'
         elif type(value) is bool and not value:
-            value='Off'
+            value = 'Off'
         else:
-            value=' ({0})'.format(value)
+            value = ' ({0})'.format(value)
         yield "<<\n/V{0}\n/T ({1})\n{2}\n{3}\n>>\n".format(
             smart_encode_str(value),
             smart_encode_str(key),
@@ -116,18 +117,18 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-                        "--output", "-o", 
-                        help="FDF File to output to", 
-                        default='vacation.fdf', 
-                        type=argparse.FileType('w'))
+        "--output", "-o",
+        help="FDF File to output to",
+        default='vacation.fdf',
+        type=argparse.FileType('w'))
     parser.add_argument(
-                        "--fields", "-f", 
-                        help="Fields used in form; syntax is fieldname=fieldvalue", 
-                        default=fields, 
-                        nargs='*')
+        "--fields", "-f",
+        help="Fields used in form; syntax is fieldname=fieldvalue",
+        default=fields,
+        nargs='*')
     args = parser.parse_args()
     if args.fields is not fields:
-        for e,x in enumerate(args.fields):   
+        for e, x in enumerate(args. fields):
             args.fields[e] = x.split('=')
             args.fields[e][1] = unicode(args.fields[e][1])
 

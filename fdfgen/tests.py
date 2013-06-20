@@ -1,6 +1,7 @@
 import fdfgen
 from unittest import TestCase
 
+
 class Tests(TestCase):
 
     def test_string_with_unbalanced_paren(self):
