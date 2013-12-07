@@ -20,12 +20,12 @@ def smart_encode_str(s):
     """Create a UTF-16 encoded PDF string literal for `s`."""
     try:
         utf16 = s.encode('utf_16_be')
-    except AttributeError: # ints and floats
+    except AttributeError:  # ints and floats
         utf16 = str(s).encode('utf_16_be')
     safe = utf16.replace(b'\x00)', b'\x00\\)').replace(b'\x00(', b'\x00\\(')
     return b''.join((codecs.BOM_UTF16_BE, safe))
-    
-    
+
+
 def handle_hidden(key, fields_hidden):
     if key in fields_hidden:
         return b"/SetF 2"
@@ -52,18 +52,18 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
                         smart_encode_str(key), b')\n',
                         handle_hidden(key, fields_hidden), b'\n',
                         handle_readonly(key, fields_readonly), b'\n>>\n'])
-                       
-                       
+
+
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
     for (key, value) in fdf_data_names:
         yield b''.join([b'<<\n/V /', smart_encode_str(value), b'\n/T (',
                         smart_encode_str(key), b')\n',
-                        handle_hidden(key, fields_hidden), b'\n', 
+                        handle_hidden(key, fields_hidden), b'\n',
                         handle_readonly(key, fields_readonly), b'\n>>\n'])
 
 
 def forge_fdf(pdf_form_url="", fdf_data_strings=[], fdf_data_names=[],
-    fields_hidden=[], fields_readonly=[]):
+              fields_hidden=[], fields_readonly=[]):
     """Generates fdf string from fields specified
 
     pdf_form_url is just the url for the form. fdf_data_strings and
@@ -78,9 +78,9 @@ def forge_fdf(pdf_form_url="", fdf_data_strings=[], fdf_data_names=[],
     fdf.append(b'1 0 obj\n<<\n/FDF\n')
     fdf.append(b'<<\n/Fields [\n')
     fdf.append(b''.join(handle_data_strings(fdf_data_strings,
-                                        fields_hidden, fields_readonly)))    
+                                            fields_hidden, fields_readonly)))
     fdf.append(b''.join(handle_data_names(fdf_data_names,
-                                        fields_hidden, fields_readonly)))
+                                          fields_hidden, fields_readonly)))
     if pdf_form_url:
         fdf.append(b''.join(b'/F (', smart_encode_str(pdf_form_url), b')\n'))
     fdf.append(b']\n')
@@ -98,17 +98,17 @@ if __name__ == "__main__":
 
     from datetime import datetime
     fields = [('Name', 'Anders Pearson'),
-            ('Date', datetime.now().strftime("%x")),
-            ('Request_1', 'Next Monday through Friday'),
-            ('Request_2', ''),
-            ('Request_3', ''),
-            ('Total_days', 5),
-            ('emergency_phone', '857-6309')]
+              ('Date', datetime.now().strftime("%x")),
+              ('Request_1', 'Next Monday through Friday'),
+              ('Request_2', ''),
+              ('Request_3', ''),
+              ('Total_days', 5),
+              ('emergency_phone', '857-6309')]
     fdf = forge_fdf(fdf_data_strings=fields)
     fdf_file = open("vacation.fdf", "wb")
     fdf_file.write(fdf)
     fdf_file.close()
-    
+
     # Parse command-line arguments
     import argparse
     parser = argparse.ArgumentParser()
