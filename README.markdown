@@ -19,7 +19,7 @@ Use fdfgen to create a FDF file:
     from fdfgen import forge_fdf
     fields = [('name','John Smith'),('telephone','555-1234')]
     fdf = forge_fdf("",fields,[],[],[])
-    fdf_file = open("data.fdf","w")
+    fdf_file = open("data.fdf","wb")
     fdf_file.write(fdf)
     fdf_file.close()
 
