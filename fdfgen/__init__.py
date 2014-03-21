@@ -41,6 +41,8 @@ def handle_readonly(key, fields_readonly):
 
 
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
+    if isinstance(fdf_data_strings, dict):
+        fdf_data_strings = list(fdf_data_strings.items())
     for (key, value) in fdf_data_strings:
         if isinstance(value, bool) and value:
             value = b'/Yes'
