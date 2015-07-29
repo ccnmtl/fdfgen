@@ -34,6 +34,7 @@ form fields) pdf will be in output.pdf.
 
 CHANGELOG:
 
+* 0.12.0 -- 2015-07-29 -- python 3 bugfixes
 * 0.11.0 -- 2013-12-07 -- python 3 port from Evan Fredericksen
 * 0.10.2 -- 2013-06-16 -- minor code refactor and added command line options from Robert Stewart <https://github.com/rwjs>
 * 0.10.1 -- 2013-04-22 -- unbalanced paren bugfix from Brandon Rhodes <brandon@rhodesmill.org>
