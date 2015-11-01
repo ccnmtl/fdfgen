@@ -40,16 +40,18 @@ def handle_readonly(key, fields_readonly):
         return b"/ClrFf 1"
 
 
-def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
+def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly, checkbox_checked_name):
     if isinstance(fdf_data_strings, dict):
-        fdf_data_strings = list(fdf_data_strings.items())
+        fdf_data_strings = fdf_data_strings.items()
+
     for (key, value) in fdf_data_strings:
-        if isinstance(value, bool) and value:
-            value = b'/Yes'
-        elif isinstance(value, bool) and not value:
+        if value is True:
+            value = b'/%s' % checkbox_checked_name
+        elif value is False:
             value = b'/Off'
         else:
             value = b''.join([b' (', smart_encode_str(value), b')'])
+
         yield b''.join([b'<<\n/V', value, b'\n/T (',
                         smart_encode_str(key), b')\n',
                         handle_hidden(key, fields_hidden), b'\n',
@@ -57,6 +59,9 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly):
 
 
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
+    if isinstance(fdf_data_names, dict):
+        fdf_data_names = fdf_dfdf_data_namesata_strings.items()
+
     for (key, value) in fdf_data_names:
         yield b''.join([b'<<\n/V /', smart_encode_str(value), b'\n/T (',
                         smart_encode_str(key), b')\n',
@@ -64,14 +69,16 @@ def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
                         handle_readonly(key, fields_readonly), b'\n>>\n'])
 
 
-def forge_fdf(pdf_form_url="", fdf_data_strings=[], fdf_data_names=[],
-              fields_hidden=[], fields_readonly=[]):
+def forge_fdf(pdf_form_url=None, fdf_data_strings=[], fdf_data_names=[],
+              fields_hidden=[], fields_readonly=[], checkbox_checked_name=b"Yes"):
     """Generates fdf string from fields specified
 
-    pdf_form_url is just the url for the form. fdf_data_strings and
-    fdf_data_names are arrays of (key,value) tuples for the form fields.
-    fields_hidden is a list of field names that should be hidden.
-    fields_readonly is a list of field names that should be readonly.
+    * pdf_form_url (default: None): just the url for the form.
+    * fdf_data_strings (default: []): array of (string, value) tuples for the form fields (or dicts). Value is passed as a UTF-16 encoded string, unless True/False, in which case it is assumed to be a checkbox (and passes names, '/Yes' (by default) or '/Off').
+    * fdf_data_names (default: []): array of (string, value) tuples for the form fields (or dicts). Value is passed to FDF as a name, '/value'
+    * fields_hidden (default: []): list of field names that should be set hidden.
+    * fields_readonly (default: []): list of field names that should be set readonly.
+    * checkbox_checked_value (default: "Yes"): By default means a checked checkboxes gets passed the value "/Yes". You may find that the default does not work with your PDF, in which case you might want to try "On".
 
     The result is a string suitable for writing to a .fdf file.
 
@@ -80,7 +87,7 @@ def forge_fdf(pdf_form_url="", fdf_data_strings=[], fdf_data_names=[],
     fdf.append(b'1 0 obj\n<<\n/FDF\n')
     fdf.append(b'<<\n/Fields [\n')
     fdf.append(b''.join(handle_data_strings(fdf_data_strings,
-                                            fields_hidden, fields_readonly)))
+                                            fields_hidden, fields_readonly, checkbox_checked_name)))
     fdf.append(b''.join(handle_data_names(fdf_data_names,
                                           fields_hidden, fields_readonly)))
     if pdf_form_url:
