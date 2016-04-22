@@ -34,6 +34,7 @@ form fields) pdf will be in output.pdf.
 
 CHANGELOG:
 
+* 0.13.0 -- 2016-04-22 -- python 3 bugfix from Julien Enselme <julien.enselme@ioda.net>
 * 0.12.1 -- 2015-11-01 -- handle alternative checkbox values fix from Bil Bas <https://github.com/Spooner>
 * 0.12.0 -- 2015-07-29 -- python 3 bugfixes
 * 0.11.0 -- 2013-12-07 -- python 3 port from Evan Fredericksen
