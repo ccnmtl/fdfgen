@@ -14,6 +14,11 @@ __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
                "Evan Fredericksen <https://github.com/evfredericksen>")
 
 import codecs
+import sys
+
+PY3 = False
+if sys.version_info[0] == 3:
+    PY3 = True
 
 
 def smart_encode_str(s):
@@ -47,7 +52,11 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
 
     for (key, value) in fdf_data_strings:
         if value is True:
-            value = b'/%s' % checkbox_checked_name
+            if PY3:
+                checkbox_checked_name = checkbox_checked_name.decode('utf-8')
+            value = '/%s' % checkbox_checked_name
+            if PY3:
+                value = value.encode('utf-8')
         elif value is False:
             value = b'/Off'
         else:
