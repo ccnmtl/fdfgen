@@ -52,7 +52,7 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
 
     for (key, value) in fdf_data_strings:
         if value is True:
-            if PY3:
+            if PY3 and isinstance(checkbox_checked_name, bytes):
                 checkbox_checked_name = checkbox_checked_name.decode('utf-8')
             value = '/%s' % checkbox_checked_name
             if PY3:
