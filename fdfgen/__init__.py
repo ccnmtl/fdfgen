@@ -60,12 +60,20 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
         elif value is False:
             value = b'/Off'
         else:
-            value = b''.join([b' (', smart_encode_str(value), b')'])
+            value = b''.join([b'(', smart_encode_str(value), b')'])
 
-        yield b''.join([b'<<\n/V', value, b'\n/T (',
-                        smart_encode_str(key), b')\n',
-                        handle_hidden(key, fields_hidden), b'\n',
-                        handle_readonly(key, fields_readonly), b'\n>>\n'])
+        yield b''.join([
+            b'<<',
+            b'/T(',
+            key,
+            b')',
+            b'/V',
+            value,
+            handle_hidden(key, fields_hidden),
+            b'',
+            handle_readonly(key, fields_readonly),
+            b'>>',
+        ])
 
 
 def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
@@ -73,10 +81,10 @@ def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
         fdf_data_names = fdf_data_names.items()
 
     for (key, value) in fdf_data_names:
-        yield b''.join([b'<<\n/V /', smart_encode_str(value), b'\n/T (',
-                        smart_encode_str(key), b')\n',
-                        handle_hidden(key, fields_hidden), b'\n',
-                        handle_readonly(key, fields_readonly), b'\n>>\n'])
+        yield b''.join([b'<<\x0a/V /', smart_encode_str(value), b'\x0a/T (',
+                        smart_encode_str(key), b')\x0a',
+                        handle_hidden(key, fields_hidden), b'\x0a',
+                        handle_readonly(key, fields_readonly), b'\x0a>>\x0a'])
 
 
 def forge_fdf(pdf_form_url=None, fdf_data_strings=[], fdf_data_names=[],
@@ -102,21 +110,21 @@ def forge_fdf(pdf_form_url=None, fdf_data_strings=[], fdf_data_names=[],
     The result is a string suitable for writing to a .fdf file.
 
     """
-    fdf = [b'%FDF-1.2\n%\xe2\xe3\xcf\xd3\r\n']
-    fdf.append(b'1 0 obj\n<<\n/FDF\n')
-    fdf.append(b'<<\n/Fields [\n')
+    fdf = [b'%FDF-1.2\x0a%\xe2\xe3\xcf\xd3\x0d\x0a']
+    fdf.append(b'1 0 obj\x0a<</FDF')
+    fdf.append(b'<</Fields[')
     fdf.append(b''.join(handle_data_strings(fdf_data_strings,
                                             fields_hidden, fields_readonly,
                                             checkbox_checked_name)))
     fdf.append(b''.join(handle_data_names(fdf_data_names,
                                           fields_hidden, fields_readonly)))
     if pdf_form_url:
-        fdf.append(b''.join(b'/F (', smart_encode_str(pdf_form_url), b')\n'))
-    fdf.append(b']\n')
-    fdf.append(b'>>\n')
-    fdf.append(b'>>\nendobj\n')
-    fdf.append(b'trailer\n\n<<\n/Root 1 0 R\n>>\n')
-    fdf.append(b'%%EOF\n\x0a')
+        fdf.append(b''.join(b'/F (', smart_encode_str(pdf_form_url), b')\x0a'))
+    fdf.append(b']\x0a')
+    fdf.append(b'>>\x0a')
+    fdf.append(b'>>\x0aendobj\x0a')
+    fdf.append(b'trailer\x0a\x0a<<\x0a/Root 1 0 R\x0a>>\x0a')
+    fdf.append(b'%%EOF\x0a\x0a')
     return b''.join(fdf)
 
 
