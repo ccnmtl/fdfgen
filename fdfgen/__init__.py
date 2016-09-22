@@ -65,7 +65,7 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
         yield b''.join([
             b'<<',
             b'/T(',
-            key,
+            smart_encode_str(key),
             b')',
             b'/V',
             value,
