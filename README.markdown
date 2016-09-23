@@ -43,3 +43,13 @@ CHANGELOG:
 * 0.10.1 -- 2013-04-22 -- unbalanced paren bugfix from Brandon Rhodes <brandon@rhodesmill.org>
 * 0.10.0 -- 2012-06-14 -- support checkbox fields and parenthesis in strings from Guangcong Luo <zarelsl@gmail.com>
 * 0.9.2  -- 2011-01-12 -- merged unicode fix from Sébastien Fievet <zyegfryed@gmail.com>
+
+
+RUNNING TESTS:
+
+* Create a virtual environment
+* tox is required to run the tests. You can install the correct version with
+  `pip install -r requirements-tests.txt`
+* Run `tox` to run tests for all Python versions.
+* To run a specific test and specific Python versions, you may use `tox -e py27
+  -- tests/test_encoding.py`
