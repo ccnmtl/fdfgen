@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ccnmtl/fdfgen.svg?branch=master)](https://travis-ci.org/ccnmtl/fdfgen)
+
 Python port of the PHP [forge_fdf](http://www.pdfhacks.com/forge_fdf/) library by Sid Steward
 
 
