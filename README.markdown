@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ccnmtl/fdfgen.svg?branch=master)](https://travis-ci.org/ccnmtl/fdfgen)
+
 Python port of the PHP [forge_fdf](http://www.pdfhacks.com/forge_fdf/) library by Sid Steward
 
 
@@ -33,10 +35,23 @@ and a filled out, flattened (meaning that there are no longer editable
 form fields) pdf will be in output.pdf.
 
 CHANGELOG:
-
+* 0.15.0 -- 2016-09-23 -- Encode field names as UTF-16 fix by Andreas Pelme <andreas@pelme.se>
+* 0.14.0 -- 2016-08-09 -- Adobe FDF Compatibility added by Cooper Stimson (@6C1)
+* 0.13.0 -- 2016-04-22 -- python 3 bugfix from Julien Enselme <julien.enselme@ioda.net>
+* 0.12.1 -- 2015-11-01 -- handle alternative checkbox values fix from Bil Bas <https://github.com/Spooner>
 * 0.12.0 -- 2015-07-29 -- python 3 bugfixes
 * 0.11.0 -- 2013-12-07 -- python 3 port from Evan Fredericksen
 * 0.10.2 -- 2013-06-16 -- minor code refactor and added command line options from Robert Stewart <https://github.com/rwjs>
 * 0.10.1 -- 2013-04-22 -- unbalanced paren bugfix from Brandon Rhodes <brandon@rhodesmill.org>
 * 0.10.0 -- 2012-06-14 -- support checkbox fields and parenthesis in strings from Guangcong Luo <zarelsl@gmail.com>
 * 0.9.2  -- 2011-01-12 -- merged unicode fix from Sébastien Fievet <zyegfryed@gmail.com>
+
+
+RUNNING TESTS:
+
+* Create a virtual environment
+* tox is required to run the tests. You can install the correct version with
+  `pip install -r requirements-tests.txt`
+* Run `tox` to run tests for all Python versions.
+* To run a specific test and specific Python versions, you may use `tox -e py27
+  -- tests/test_encoding.py`
