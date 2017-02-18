@@ -80,7 +80,6 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
         else:
             value = b''.join([b'(', smart_encode_str(value), b')'])
 
-        print(repr(value))
         yield b''.join([
             b'<<',
             b'/T(',
