@@ -16,9 +16,8 @@ __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
 import codecs
 import sys
 
-PY3 = False
-if sys.version_info[0] == 3:
-    PY3 = True
+if sys.version_info[0] < 3:
+    bytes = str
 
 
 def smart_encode_str(s):
@@ -53,21 +52,18 @@ class FDFIdentifier(object):
         if value.startswith('/'):
             value = value[1:]
 
-        if PY3 and isinstance(value, bytes):
+        if isinstance(value, bytes):
             value = value.decode('utf-8')
 
-        value = '/%s' % value
+        value = u'/%s' % value
+        value = value.encode('utf-8')
 
-        if PY3:
-            value = value.encode('utf-8')
         self._value = value
-
 
     @property
     def value(self):
         return self._value
         
-
 
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
                         checkbox_checked_name):
@@ -84,6 +80,7 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
         else:
             value = b''.join([b'(', smart_encode_str(value), b')'])
 
+        print(repr(value))
         yield b''.join([
             b'<<',
             b'/T(',
