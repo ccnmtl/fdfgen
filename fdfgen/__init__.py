@@ -16,9 +16,8 @@ __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
 import codecs
 import sys
 
-PY3 = False
-if sys.version_info[0] == 3:
-    PY3 = True
+if sys.version_info[0] < 3:
+    bytes = str
 
 
 def smart_encode_str(s):
@@ -45,6 +44,27 @@ def handle_readonly(key, fields_readonly):
         return b"/ClrFf 1"
 
 
+class FDFIdentifier(object):
+    """A PDF value, such as /Yes or /Off that should be passed through with the / and without parenthesis (which would indicate it was a value, not an identifier)
+    This allows for different checkbox checked/unchecked names per checkbox!
+    """
+    def __init__(self, value):
+        if value.startswith('/'):
+            value = value[1:]
+
+        if isinstance(value, bytes):
+            value = value.decode('utf-8')
+
+        value = u'/%s' % value
+        value = value.encode('utf-8')
+
+        self._value = value
+
+    @property
+    def value(self):
+        return self._value
+        
+
 def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
                         checkbox_checked_name):
     if isinstance(fdf_data_strings, dict):
@@ -52,13 +72,11 @@ def handle_data_strings(fdf_data_strings, fields_hidden, fields_readonly,
 
     for (key, value) in fdf_data_strings:
         if value is True:
-            if PY3 and isinstance(checkbox_checked_name, bytes):
-                checkbox_checked_name = checkbox_checked_name.decode('utf-8')
-            value = '/%s' % checkbox_checked_name
-            if PY3:
-                value = value.encode('utf-8')
+            value = FDFIdentifier(checkbox_checked_name).value
         elif value is False:
-            value = b'/Off'
+            value = FDFIdentifier('Off').value
+        elif isinstance(value, FDFIdentifier):
+            value = value.value
         else:
             value = b''.join([b'(', smart_encode_str(value), b')'])
 
