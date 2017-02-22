@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="fdfgen",
-    version="0.15.0",
+    version="0.16.0",
     author="Anders Pearson",
     author_email="anders@columbia.edu",
     url="http://github.com/ccnmtl/fdfgen/",
