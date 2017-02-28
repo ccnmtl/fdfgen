@@ -17,7 +17,7 @@ import codecs
 import sys
 
 if sys.version_info[0] < 3:
-    bytes = str
+    bytes, str = str, unicode
 
 
 def smart_encode_str(s):
@@ -48,8 +48,6 @@ class FDFIdentifier(object):
     """A PDF value, such as /Yes or /Off that should be passed through with the / and without parenthesis (which would indicate it was a value, not an identifier)
     This allows for different checkbox checked/unchecked names per checkbox!
     """
-    SPACE_CODE = '#20'
-
     def __init__(self, value):
         if value.startswith('/'):
             value = value[1:]
@@ -57,7 +55,7 @@ class FDFIdentifier(object):
         if isinstance(value, bytes):
             value = value.decode('utf-8')
 
-        value = u'/%s' % value.replace(' ', self.SPACE_CODE)
+        value = u'/%s' % re.sub(r'([^\w])', lambda m: "#" + hex(ord(m.group(1)))[-2:], value)
         value = value.encode('utf-8')
 
         self._value = value

@@ -13,7 +13,7 @@ def test_identifier_without_slash():
     assert result == expected_identifier
 
 
-def test_identifier_with_spaces():
-    expected_identifier = b'/with#20several#20spaces'
-    result = fdfgen.FDFIdentifier('with several spaces').value
+def test_identifier_with_special_chars():
+    expected_identifier = b'/with#20#28several#29#20special#2Fchars'
+    result = fdfgen.FDFIdentifier('with (several) special/chars').value
     assert result == expected_identifier
