@@ -15,9 +15,10 @@ __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
 
 import codecs
 import sys
+import re
 
 if sys.version_info[0] < 3:
-    bytes = str
+    bytes, str = str, unicode
 
 
 def smart_encode_str(s):
@@ -55,7 +56,7 @@ class FDFIdentifier(object):
         if isinstance(value, bytes):
             value = value.decode('utf-8')
 
-        value = u'/%s' % value
+        value = u'/%s' % re.sub(r'([^\w])', lambda m: "#" + hex(ord(m.group(1)))[-2:], value)
         value = value.encode('utf-8')
 
         self._value = value
