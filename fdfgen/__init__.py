@@ -6,6 +6,7 @@ Port of the PHP forge_fdf library by Sid Steward
 Anders Pearson <anders@columbia.edu> at Columbia Center For New Media Teaching
 and Learning <http://ccnmtl.columbia.edu/>
 """
+from __future__ import unicode_literals
 
 __author__ = "Anders Pearson <anders@columbia.edu>"
 __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
