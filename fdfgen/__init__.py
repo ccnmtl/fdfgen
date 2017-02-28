@@ -15,6 +15,7 @@ __credits__ = ("Sébastien Fievet <zyegfryed@gmail.com>",
 
 import codecs
 import sys
+import re
 
 if sys.version_info[0] < 3:
     bytes, str = str, unicode
