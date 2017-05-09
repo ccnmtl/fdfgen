@@ -49,11 +49,12 @@ class FDFIdentifier(object):
     This allows for different checkbox checked/unchecked names per checkbox!
     """
     def __init__(self, value):
-        if value.startswith('/'):
-            value = value[1:]
-
+        # make sure value is str right away, to avoid TypeError in startswith 
         if isinstance(value, bytes):
             value = value.decode('utf-8')
+            
+        if value.startswith('/'):
+            value = value[1:]
 
         value = u'/%s' % value
         value = value.encode('utf-8')
