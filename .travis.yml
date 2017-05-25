@@ -9,10 +9,10 @@ install: pip install tox-travis
 script: tox
 deploy:
   provider: pypi
+  distributions: "sdist bdist_wheel"
   user: ctlpypi
   password:
     secure: U5KwqQpfUsyHRmwnOV0Pv/qRSteavHJ9tHiYzCnGAhHBPKLeAC5EUa7WfkXSkuQ4eRvohvxb5ybytMP+R5If4ZL3y7Z3MNosLumj0I2IRtl7+xKmouCEgilda1vVZIIWOQB/SMRmGxKadhNfv9W/9GkSdhsHllqkSWOS+U/Pv9g=
   on:
     tags: true
-    distributions: sdist bdist_wheel
     repo: ccnmtl/fdfgen
