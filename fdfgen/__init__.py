@@ -112,7 +112,7 @@ def forge_fdf(pdf_form_url=None, fdf_data_strings=[], fdf_data_names=[],
     """Generates fdf string from fields specified
 
     * pdf_form_url (default: None): just the url for the form.
-      fdf_data_strings (default: []): array of (string, value) tuples for the
+    * fdf_data_strings (default: []): array of (string, value) tuples for the
       form fields (or dicts). Value is passed as a UTF-16 encoded string,
       unless True/False, in which case it is assumed to be a checkbox
       (and passes names, '/Yes' (by default) or '/Off').
