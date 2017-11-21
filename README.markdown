@@ -35,6 +35,7 @@ and a filled out, flattened (meaning that there are no longer editable
 form fields) pdf will be in output.pdf.
 
 CHANGELOG:
+* 0.16.1 -- 2017-11-21 -- Fix `TypeError` in python 3.6 by Tom Grundy (@caver456)
 * 0.16.0 -- 2017-02-22 -- Allow for different values for each checkbox by <bil.bagpuss@gmail.com>
 * 0.15.0 -- 2016-09-23 -- Encode field names as UTF-16 fix by Andreas Pelme <andreas@pelme.se>
 * 0.14.0 -- 2016-08-09 -- Adobe FDF Compatibility added by Cooper Stimson (@6C1)
