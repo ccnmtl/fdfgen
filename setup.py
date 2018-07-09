@@ -4,7 +4,7 @@ setup(
     name="fdfgen",
     version="0.16.1",
     author="Anders Pearson",
-    author_email="anders@columbia.edu",
+    author_email="ctl-dev@columbia.edu",
     url="http://github.com/ccnmtl/fdfgen/",
     description="library for creating FDF files",
     long_description="Python port of the PHP forge_fdf library for creating FDF files",
