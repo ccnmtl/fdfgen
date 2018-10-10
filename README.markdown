@@ -1,40 +1,40 @@
+# fdfgen
+
 [![Build Status](https://travis-ci.org/ccnmtl/fdfgen.svg?branch=master)](https://travis-ci.org/ccnmtl/fdfgen)
 
 Python port of the PHP [forge_fdf](http://www.pdfhacks.com/forge_fdf/) library by Sid Steward
 
+PDF forms work with FDF data. I ported a PHP FDF library to Python a while back when I had to do this and released it as fdfgen. I use that to generate an fdf file with the data for the form, then use [`pdftk`](http://www.pdflabs.com/tools/pdftk-server/) to push the fdf into a PDF form and generate the output.
 
-PDF forms work with FDF data. I ported a PHP FDF library to Python a
-while back when I had to do this and released it as fdfgen. I use that
-to generate an fdf file with the data for the form, then use
-[pdftk](http://www.pdflabs.com/tools/pdftk-server/) to push the fdf
-into a PDF form and generate the output.
+## QUICK INSTALL
 
-The whole process works like this:
+    pip install fdfgen
 
-You (or a designer) design the PDF in Acrobat or whatever and mark the
-form fields and take note of the field names. This can be done either through
-Acrobat or by installing pdftk and entering the command line 
-`pdftk [pdf name] dump_data_fields`.
-Let's say your form has fields "name" and "telephone".
+## HOW IT WORKS
 
-Use fdfgen to create a FDF file:
+1. You (or a designer) design the `form.pdf` in Acrobat
+2. Mark the form fields and take note of the field names. This can be done either through Acrobat or by installing pdftk and entering the command line `pdftk [pdf name] dump_data_fields`. 
+3. Let's say your form has fields "name" and "telephone".
 
-    #!python
-    from fdfgen import forge_fdf
-    fields = [('name','John Smith'),('telephone','555-1234')]
-    fdf = forge_fdf("",fields,[],[],[])
-    fdf_file = open("data.fdf","wb")
-    fdf_file.write(fdf)
-    fdf_file.close()
+    Use fdfgen to create a FDF file:
 
-Then you run pdftk to merge and flatten:
+        #!/usr/bin/env python
+        from fdfgen import forge_fdf
+        
+        fields = [('name', 'John Smith'), ('telephone', '555-1234')]
+        fdf = forge_fdf("",fields,[],[],[])
+        
+        with open("data.fdf", "wb") as fdf_file:
+            fdf_file.write(fdf)
 
-    pdftk form.pdf fill_form data.fdf output output.pdf flatten
+4. Then you run pdftk to merge and flatten:
 
-and a filled out, flattened (meaning that there are no longer editable
-form fields) pdf will be in output.pdf.
+       pdftk form.pdf fill_form data.fdf output output.pdf flatten
 
-CHANGELOG:
+    and a filled out, flattened (meaning that there are no longer editable form fields) pdf will be in `output.pdf`.
+
+## CHANGELOG
+
 * 0.16.1 -- 2017-11-21 -- Fix `TypeError` in python 3.6 by Tom Grundy (@caver456)
 * 0.16.0 -- 2017-02-22 -- Allow for different values for each checkbox by <bil.bagpuss@gmail.com>
 * 0.15.0 -- 2016-09-23 -- Encode field names as UTF-16 fix by Andreas Pelme <andreas@pelme.se>
@@ -48,8 +48,7 @@ CHANGELOG:
 * 0.10.0 -- 2012-06-14 -- support checkbox fields and parenthesis in strings from Guangcong Luo <zarelsl@gmail.com>
 * 0.9.2  -- 2011-01-12 -- merged unicode fix from Sébastien Fievet <zyegfryed@gmail.com>
 
-
-RUNNING TESTS:
+## RUNNING TESTS:
 
 * Create a virtual environment
 * tox is required to run the tests. You can install the correct version with
