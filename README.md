@@ -12,8 +12,11 @@ PDF forms work with FDF data. I ported a PHP FDF library to Python a while back 
 
 ## HOW IT WORKS
 
-1. You (or a designer) design the `form.pdf` in Acrobat
-2. Mark the form fields and take note of the field names. This can be done either through Acrobat or by installing pdftk and entering the command line `pdftk [pdf name] dump_data_fields`. 
+1. You (or a designer) design the `form.pdf` in Acrobat.
+2. Mark the form fields and take note of the field names. This can be done either through Acrobat or by installing pdftk and entering the command line
+
+        pdftk [pdf name] dump_data_fields
+
 3. Let's say your form has fields "name" and "telephone".
 
     Use fdfgen to create a FDF file:
