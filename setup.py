@@ -9,7 +9,7 @@ setup(
     description="library for creating FDF files",
     long_description="Python port of the PHP forge_fdf library for creating FDF files",
     scripts = [],
-    license = "BSD",
+    license = "BSD-3-Clause",
     platforms = ["any"],
     zip_safe=False,
     packages=find_packages()
