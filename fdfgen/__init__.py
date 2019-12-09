@@ -100,7 +100,7 @@ def handle_data_names(fdf_data_names, fields_hidden, fields_readonly):
         fdf_data_names = fdf_data_names.items()
 
     for (key, value) in fdf_data_names:
-        yield b''.join([b'<<\x0a/V /', smart_encode_str(value), b'\x0a/T (',
+        yield b''.join([b'<<\x0a/V /', value.encode("utf-8"), b'\x0a/T (',
                         smart_encode_str(key), b')\x0a',
                         handle_hidden(key, fields_hidden), b'\x0a',
                         handle_readonly(key, fields_readonly), b'\x0a>>\x0a'])
