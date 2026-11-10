@@ -26,7 +26,10 @@ def smart_encode_str(s):
         utf16 = s.encode('utf_16_be')
     except AttributeError:  # ints and floats
         utf16 = str(s).encode('utf_16_be')
-    safe = utf16.replace(b'\x00)', b'\x00\\)').replace(b'\x00(', b'\x00\\(')
+    # Escape backslashes first (they are the escape character itself),
+    # then the parentheses.
+    safe = utf16.replace(b'\x00\\', b'\x00\\\\')
+    safe = safe.replace(b'\x00)', b'\x00\\)').replace(b'\x00(', b'\x00\\(')
     return b''.join((codecs.BOM_UTF16_BE, safe))
 
 
